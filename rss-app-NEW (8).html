@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RSS : Risk Safety Suggestion</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Sarabun',sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh}
+button,input,select,textarea{font-family:'Sarabun',sans-serif}
+
+/* NAV */
+.nav{background:#1d4ed8;padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.nav-brand{display:flex;align-items:center;gap:10px;padding:12px 0}
+.nav-logo{background:rgba(255,255,255,0.2);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px}
+.nav-title{color:#fff;font-weight:700;font-size:15px}
+.nav-sub{color:rgba(255,255,255,0.7);font-size:10px}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{padding:7px 14px;border-radius:7px;border:none;font-size:12px;font-weight:600;cursor:pointer;color:rgba(255,255,255,0.8);background:transparent;transition:all .15s}
+.nav-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+.nav-btn.act{background:#fff;color:#1d4ed8}
+.nav-count{background:#dc2626;color:#fff;border-radius:99px;padding:1px 7px;font-size:11px;margin-left:4px}
+
+/* PAGE */
+.page{display:none;padding:24px 16px;max-width:860px;margin:0 auto}
+.page.act{display:block}
+
+/* CARD */
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card-title{font-weight:700;font-size:14px;color:#1d4ed8;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:6px}
+
+/* FORM */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.fg{margin-bottom:12px}
+.lbl{display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px}
+.inp{width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid #e2e8f0;font-size:13px;color:#1e293b;background:#f8fafc;outline:none;transition:border .15s}
+.inp:focus{border-color:#3b82f6;background:#fff}
+select.inp{cursor:pointer}
+textarea.inp{resize:vertical}
+
+/* HAZARD */
+.haz-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.haz-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1.5px solid #e2e8f0;background:#f8fafc;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
+.haz-item.on{background:#eff6ff;border-color:#3b82f6;color:#1d4ed8}
+.haz-item input{accent-color:#3b82f6;flex-shrink:0;width:15px;height:15px;pointer-events:none}
+
+/* SEV */
+.sev-opts{display:flex;flex-direction:column;gap:6px}
+.sev-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;border:1.5px solid #e2e8f0;cursor:pointer;transition:all .15s}
+.sev-opt.A-on{background:#fee2e2;border-color:#dc2626}
+.sev-opt.B-on{background:#ffedd5;border-color:#ea580c}
+.sev-opt.C-on{background:#fef9c3;border-color:#ca8a04}
+.sev-opt input{pointer-events:none}
+.sev-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* IMG UPLOAD */
+.img-zone{border:2px dashed #cbd5e1;border-radius:10px;min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#f8fafc;position:relative;overflow:hidden;transition:border .15s}
+.img-zone:hover{border-color:#3b82f6;background:#eff6ff}
+.img-zone-ph{text-align:center;color:#94a3b8;pointer-events:none}
+.img-zone-ph .ic{font-size:28px;margin-bottom:4px}
+.img-zone-ph .tx{font-size:12px}
+.img-zone img.thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+
+/* BTN */
+.btn{padding:10px 20px;border-radius:9px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-blue{background:#1d4ed8;color:#fff;box-shadow:0 4px 12px rgba(29,78,216,.25)}
+.btn-blue:hover{background:#1e40af}
+.btn-green{background:#059669;color:#fff}
+.btn-orange{background:#d97706;color:#fff}
+.btn-red{background:#fff;color:#dc2626;border:1.5px solid #fecaca}
+.btn-gray{background:#f1f5f9;color:#475569;border:1.5px solid #e2e8f0}
+.btn-full{width:100%;padding:13px}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:9px;font-size:13px;font-weight:600;margin-bottom:12px;display:none}
+.alert-ok{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+.alert-err{background:#fee2e2;color:#dc2626;border:1px solid #fecaca}
+
+/* TOAST */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:flex;align-items:center;gap:8px;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{background:#15803d}
+#toast.err{background:#dc2626}
+
+/* LIST */
+.list-item{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.sev-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+.list-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.list-name{font-weight:700;font-size:14px}
+.list-sub{font-size:12px;color:#94a3b8;margin-top:1px}
+.list-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.status-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.st-pending{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.st-inprogress{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd}
+.st-done{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+
+/* LIST HEADER */
+.list-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.list-hdr h2{font-size:18px;font-weight:700}
+.list-filter{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{padding:5px 12px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:#64748b}
+.filter-btn.on{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+
+/* DETAIL */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.detail-box{background:#f8fafc;border-radius:8px;padding:8px 12px;border:1px solid #e2e8f0}
+.detail-lbl{font-size:11px;color:#94a3b8;margin-bottom:2px}
+.detail-val{font-size:13px;font-weight:600}
+.jor-card{background:#fffbeb;border:2px solid #fcd34d;border-radius:10px;padding:16px;margin-bottom:12px}
+.mgr-card{background:#f0f9ff;border:2px solid #7dd3fc;border-radius:10px;padding:16px;margin-bottom:12px}
+
+/* DASHBOARD */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.kpi{background:#fff;border-radius:10px;padding:14px 16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.kpi-num{font-size:28px;font-weight:900;line-height:1}
+.kpi-lbl{font-size:11px;color:#94a3b8;margin-top:4px}
+.tab-row{display:flex;gap:6px;margin-bottom:14px}
+.tab-btn{padding:7px 18px;border-radius:8px;border:1.5px solid #e2e8f0;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:#64748b}
+.tab-btn.on{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.role-tabs{display:flex;gap:0;margin-bottom:16px;border-radius:10px;overflow:hidden;border:1.5px solid #e2e8f0;background:#f8fafc}
+.role-tab{flex:1;padding:11px 6px;border:none;background:transparent;font-size:13px;font-weight:700;cursor:pointer;color:#64748b;transition:all .15s;border-right:1.5px solid #e2e8f0;font-family:'Sarabun',sans-serif}
+.role-tab:last-child{border-right:none}
+.role-tab.emp.on{background:#eff6ff;color:#1d4ed8}
+.role-tab.jor.on{background:#fffbeb;color:#d97706}
+.role-tab.mgr.on{background:#f0f9ff;color:#0369a1}
+.role-pane{display:none}
+.role-pane.on{display:block}
+.readonly-box{background:#f8fafc;border-radius:8px;padding:10px 14px;border:1px solid #e2e8f0;font-size:13px;color:#475569}
+.readonly-lbl{font-size:11px;color:#94a3b8;margin-bottom:2px}
+.readonly-val{font-weight:600;color:#1e293b}
+.db-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.db-sec{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.db-sec-title{font-weight:700;font-size:13px;color:#1e293b;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-lbl{font-size:11px;width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.bar-val{font-size:11px;font-weight:700;width:24px;text-align:right;flex-shrink:0}
+.db-table{width:100%;border-collapse:collapse;font-size:12px}
+.db-table th{background:#f8fafc;padding:7px 10px;text-align:left;font-weight:700;color:#475569;border-bottom:2px solid #e2e8f0}
+.db-table td{padding:7px 10px;border-bottom:1px solid #f1f5f9}
+
+/* HOME */
+.home-hero{text-align:center;padding:30px 20px 20px}
+.home-hero h1{font-size:26px;font-weight:900;color:#1d4ed8;margin-bottom:8px}
+.home-hero p{color:#64748b;font-size:14px;max-width:420px;margin:0 auto 24px}
+.home-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.sev-info{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.sev-chip{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;text-align:center}
+
+/* LOADING */
+#loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.85);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.spinner{width:36px;height:36px;border:4px solid #e2e8f0;border-top-color:#1d4ed8;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PDF STYLES */
+@media print{
+  .nav,.no-print{display:none!important}
+  .page{display:block!important;padding:0;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">RSS</div>
+    <div>
+      <div class="nav-title">RSS : Risk Safety Suggestion</div>
+      <div class="nav-sub">ระบบแจ้งข้อเสนอแนะด้านความปลอดภัย</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="go('home')">🏠 หน้าหลัก</button>
+    <button class="nav-btn" onclick="go('form')">📝 แจ้งข้อเสนอ</button>
+    <button class="nav-btn" id="nav-list" onclick="go('list')">📋 รายการ<span class="nav-count" id="nav-count">0</span></button>
+    <button class="nav-btn" onclick="go('dash')">📊 Dashboard</button>
+    <button class="nav-btn btn-gray" onclick="doRefresh()" style="font-size:11px">🔄</button>
+  </div>
+</nav>
+
+<div id="loading"><div class="spinner"></div><div style="font-size:13px;color:#64748b">กำลังโหลด...</div></div>
+<div id="toast"></div>
+
+<!-- ==================== HOME ==================== -->
+<div class="page act" id="pg-home">
+  <div class="home-hero">
+    <div style="font-size:52px;margin-bottom:8px">🦺</div>
+    <h1>RSS : Risk Safety Suggestion</h1>
+    <p>ระบบแจ้งข้อเสนอแนะด้านความปลอดภัยในการทำงาน<br>DAR NO.: SF-24-002 | FM-SF-001 Rev.04</p>
+    <div class="home-btns">
+      <button class="btn btn-blue" style="font-size:15px;padding:14px 32px" onclick="go('form')">📝 แจ้งข้อเสนอแนะ</button>
+      <button class="btn btn-gray" style="font-size:15px;padding:14px 32px" onclick="go('list')">📋 ดูรายการทั้งหมด</button>
+    </div>
+    <div class="sev-info">
+      <div class="sev-chip" style="background:#fee2e2;color:#dc2626">🔴 ระดับ A<br><small>ตาย/พิการ/สูญเสียอวัยวะ</small></div>
+      <div class="sev-chip" style="background:#ffedd5;color:#ea580c">🟠 ระดับ B<br><small>บาดเจ็บ/หยุดการผลิต</small></div>
+      <div class="sev-chip" style="background:#fef9c3;color:#ca8a04">🟡 ระดับ C<br><small>บาดเจ็บเล็กน้อย</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FORM ==================== -->
+<div class="page" id="pg-form">
+  <div class="alert alert-ok" id="form-ok">✅ ส่งข้อเสนอแนะเรียบร้อยแล้ว!</div>
+  <div class="alert alert-err" id="form-err"></div>
+
+  <div class="card">
+    <div class="card-title">👤 ข้อมูลผู้แจ้ง</div>
+    <div class="g2">
+      <div class="fg"><label class="lbl">ชื่อ-นามสกุล *</label><input class="inp" id="f-name" placeholder="กรอกชื่อ-นามสกุล"></div>
+      <div class="fg"><label class="lbl">รหัสพนักงาน *</label><input class="inp" id="f-emp" placeholder="รหัสพนักงาน"></div>
+    </div>
+    <div class="g3">
+      <div class="fg">
+        <label class="lbl">แผนก *</label>
+        <select class="inp" id="f-dept">
+          <option value="">— เลือกแผนก —</option>
+          <option>QC</option><option>QE/NM</option><option>Calotte 1</option><option>Calotte 2</option><option>Calotte 3</option>
+          <option>Calotte 4A</option><option>Calotte 4B</option><option>Mold</option><option>Single</option><option>NV</option>
+          <option>Sunvisor</option><option>MN</option><option>Assy</option><option>Facility</option><option>HR&GA</option>
+          <option>MK</option><option>DS</option><option>Planning</option><option>PE/RD</option><option>Fab B</option>
+          <option>Fab C</option><option>บัญชี/การเงิน</option><option>จัดซื้อ</option><option>Safety</option><option>PS</option><option>อื่นๆ</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">วันที่</label><input class="inp" id="f-date" type="date"></div>
+      <div class="fg"><label class="lbl">พื้นที่ปฏิบัติงาน *</label><input class="inp" id="f-area" placeholder="ระบุพื้นที่"></div>
+    </div>
+    <div class="fg"><label class="lbl">เครื่องจักร/อุปกรณ์ที่ทำให้เกิดอันตราย</label><input class="inp" id="f-equip" placeholder="ระบุอุปกรณ์"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ ประเภทอันตราย (stop 6 type)</div>
+    <div class="haz-grid" id="haz-grid">
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="1. อันตรายจากเครื่องจักร"> 1. อันตรายจากเครื่องจักร</div>
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="4. อันตรายจากการตกจากที่สูง"> 4. อันตรายจากการตกจากที่สูง</div>
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="2. อันตรายจากวัตถุหนักตกใส่"> 2. อันตรายจากวัตถุหนักตกใส่</div>
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="5. อันตรายจากกระแสไฟฟ้า"> 5. อันตรายจากกระแสไฟฟ้า</div>
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="3. อันตรายจากยานพาหนะ"> 3. อันตรายจากยานพาหนะ</div>
+      <div class="haz-item" onclick="toggleHaz(this)"><input type="checkbox" value="6. อื่นๆ (ไฟไหม้, ของมีคม, วัตถุร้อน)"> 6. อื่นๆ (ไฟไหม้, ของมีคม, วัตถุร้อน)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 ระดับความรุนแรง</div>
+    <div class="sev-opts">
+      <label class="sev-opt" id="sev-A"><input type="radio" name="sev" value="A" onchange="onSev()"><div class="sev-dot" style="background:#dc2626"></div><div><strong style="color:#dc2626">ระดับ A</strong> — ตาย พิการ หรือสูญเสียอวัยวะ</div></label>
+      <label class="sev-opt" id="sev-B"><input type="radio" name="sev" value="B" onchange="onSev()"><div class="sev-dot" style="background:#ea580c"></div><div><strong style="color:#ea580c">ระดับ B</strong> — บาดเจ็บ หรือหยุดการผลิต</div></label>
+      <label class="sev-opt" id="sev-C"><input type="radio" name="sev" value="C" onchange="onSev()"><div class="sev-dot" style="background:#ca8a04"></div><div><strong style="color:#ca8a04">ระดับ C</strong> — บาดเจ็บเล็กน้อย หรือไม่หยุดการผลิต</div></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 ข้อเสนอแนะ</div>
+    <textarea class="inp" id="f-suggest" rows="3" placeholder="กรอกข้อเสนอแนะ เพื่อปรับปรุง"></textarea>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📷 รูปภาพ</div>
+    <div class="g2">
+      <div>
+        <div class="lbl" style="margin-bottom:6px">รูปก่อน</div>
+        <div class="img-zone" id="zone-b" onclick="document.getElementById('inp-b').click()">
+          <div class="img-zone-ph" id="ph-b"><div class="ic">📁</div><div class="tx">คลิกเพื่อเลือกรูป</div></div>
+        </div>
+        <input type="file" id="inp-b" accept="image/*" style="display:none" onchange="pickImg(this,'zone-b','ph-b','before')">
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:6px">รูปหลัง</div>
+        <div class="img-zone" id="zone-a" onclick="document.getElementById('inp-a').click()">
+          <div class="img-zone-ph" id="ph-a"><div class="ic">📁</div><div class="tx">คลิกเพื่อเลือกรูป</div></div>
+        </div>
+        <input type="file" id="inp-a" accept="image/*" style="display:none" onchange="pickImg(this,'zone-a','ph-a','after')">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-blue btn-full" id="btn-submit" onclick="submitForm()">✅ ส่งข้อเสนอแนะ</button>
+</div>
+
+<!-- ==================== LIST ==================== -->
+<div class="page" id="pg-list">
+  <div class="list-hdr">
+    <div>
+      <h2>📋 รายการทั้งหมด</h2>
+      <div style="font-size:12px;color:#94a3b8;margin-top:2px" id="list-count-lbl"></div>
+    </div>
+    <div class="list-filter">
+      <button class="filter-btn on" onclick="setFilter('all',this)">ทั้งหมด</button>
+      <button class="filter-btn" onclick="setFilter('A',this)" style="color:#dc2626">🔴 A</button>
+      <button class="filter-btn" onclick="setFilter('B',this)" style="color:#ea580c">🟠 B</button>
+      <button class="filter-btn" onclick="setFilter('C',this)" style="color:#ca8a04">🟡 C</button>
+      <button class="filter-btn" onclick="setFilter('pending',this)">⏳ รอ</button>
+      <button class="filter-btn" onclick="setFilter('done',this)">✅ แก้ไขแล้ว</button>
+    </div>
+  </div>
+  <div id="list-body"></div>
+</div>
+
+<!-- ==================== DETAIL ==================== -->
+<div class="page" id="pg-detail">
+  <!-- header -->
+  <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button class="btn btn-gray btn-sm" onclick="go('list')">← กลับ</button>
+    <span id="det-sev-badge"></span>
+    <button class="btn btn-gray btn-sm no-print" onclick="printDetail()">🖨️ พิมพ์ PDF</button>
+  </div>
+
+  <!-- 3 Role Tabs -->
+  <div class="role-tabs">
+    <button class="role-tab emp on" id="rtab-emp" onclick="setRoleTab('emp')">👤 พนักงาน</button>
+    <button class="role-tab jor" id="rtab-jor" onclick="setRoleTab('jor')">🦺 จป.วิชาชีพ</button>
+    <button class="role-tab mgr" id="rtab-mgr" onclick="setRoleTab('mgr')">👷 หัวหน้างาน/เจ้าของพื้นที่</button>
+  </div>
+
+  <!-- ========== TAB: พนักงาน ========== -->
+  <div class="role-pane on" id="rpane-emp">
+    <div class="card">
+      <div class="card-title">👤 ข้อมูลที่พนักงานกรอก</div>
+      <div class="detail-grid" id="det-info"></div>
+      <div id="det-haz" style="margin-top:10px"></div>
+      <div id="det-suggest" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📷 รูปภาพก่อน</div>
+      <div id="det-imgs-emp"></div>
+    </div>
+  </div>
+
+  <!-- ========== TAB: จป.วิชาชีพ ========== -->
+  <div class="role-pane" id="rpane-jor">
+    <!-- อ่านอย่างเดียว: ข้อมูลพนักงาน -->
+    <div class="card" style="border:1.5px solid #e2e8f0">
+      <div class="card-title" style="color:#64748b">👤 ข้อมูลจากพนักงาน (อ่านอย่างเดียว)</div>
+      <div class="detail-grid" id="jor-view-emp"></div>
+      <div id="jor-view-haz" style="margin-top:8px"></div>
+      <div id="jor-view-suggest" style="margin-top:8px"></div>
+      <div id="jor-view-img" style="margin-top:10px"></div>
+    </div>
+    <!-- กรอกได้: ส่วน จป. -->
+    <div class="jor-card">
+      <div style="font-weight:700;color:#d97706;margin-bottom:12px;font-size:14px">🦺 ส่วนของ จป.วิชาชีพ — กรอกข้อมูลที่นี่</div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="fg">
+          <label class="lbl">📍 พื้นที่ (อ้างอิง 5ส.) *</label>
+          <select class="inp" id="jor-area">
+            <option value="">— เลือกพื้นที่ —</option>
+            <option>MN</option><option>RD/PE</option><option>IT</option><option>Calotte 2</option><option>NV</option>
+            <option>Single</option><option>Sun visor</option><option>Calotte 1</option><option>Calotte 3</option>
+            <option>Mold</option><option>Calotte 4</option><option>QC</option><option>QE/NM</option>
+            <option>Fab C</option><option>Fab B</option><option>Assy</option>
+            <option>DS (Export)</option><option>DS (Domestic)</option>
+            <option>Indoor (โรงอาหาร,ห้องน้ำ)</option>
+            <option>Outdoor (รอบนอก,ป้อม รปภ.,ลานจอดรถ)</option>
+            <option>Office</option><option>Office Room (ห้องประชุม)</option>
+            <option value="other">อื่นๆ ระบุ.....</option>
+          </select>
+        </div>
+        <div class="fg" id="jor-other-wrap" style="display:none">
+          <label class="lbl">ระบุพื้นที่</label>
+          <input class="inp" id="jor-other" placeholder="ระบุพื้นที่...">
+        </div>
+        <div class="fg">
+          <label class="lbl">⚠️ แก้ไขระดับอันตราย</label>
+          <select class="inp" id="jor-sev">
+            <option value="">— ไม่เปลี่ยน —</option>
+            <option value="A">ระดับ A — ตาย/พิการ/สูญเสียอวัยวะ</option>
+            <option value="B">ระดับ B — บาดเจ็บ/หยุดการผลิต</option>
+            <option value="C">ระดับ C — บาดเจ็บเล็กน้อย</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl">หมายเหตุ จป.</label><textarea class="inp" id="jor-note" rows="2" placeholder="บันทึกเพิ่มเติมจาก จป.วิชาชีพ"></textarea></div>
+      <button class="btn btn-orange btn-full" onclick="saveJor()">💾 บันทึกข้อมูล จป.</button>
+    </div>
+  </div>
+
+  <!-- ========== TAB: หัวหน้างาน ========== -->
+  <div class="role-pane" id="rpane-mgr">
+    <!-- อ่านอย่างเดียว: ข้อมูลพนักงาน + จป. -->
+    <div class="card" style="border:1.5px solid #e2e8f0">
+      <div class="card-title" style="color:#64748b">👤 ข้อมูลจากพนักงาน (อ่านอย่างเดียว)</div>
+      <div class="detail-grid" id="mgr-view-emp"></div>
+      <div id="mgr-view-haz" style="margin-top:8px"></div>
+      <div id="mgr-view-suggest" style="margin-top:8px"></div>
+      <div id="mgr-view-img" style="margin-top:10px"></div>
+    </div>
+    <div class="card" id="mgr-view-jor-card" style="border:1.5px solid #fed7aa">
+      <div class="card-title" style="color:#d97706">🦺 ข้อมูลจาก จป.วิชาชีพ (อ่านอย่างเดียว)</div>
+      <div class="detail-grid" id="mgr-view-jor"></div>
+      <div id="mgr-view-jor-chg" style="display:none;margin-top:8px;padding:7px 12px;background:#fee2e2;border-radius:8px;border:1px solid #fecaca;font-size:12px;color:#dc2626"></div>
+    </div>
+    <!-- กรอกได้: ส่วนหัวหน้างาน -->
+    <div class="mgr-card">
+      <div style="font-weight:700;color:#0369a1;margin-bottom:12px;font-size:14px">👷 ส่วนของหัวหน้างาน — กรอกข้อมูลที่นี่</div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="fg">
+          <label class="lbl">สถานะการแก้ไข</label>
+          <select class="inp" id="mgr-status">
+            <option value="pending">⏳ รอดำเนินการ</option>
+            <option value="inprogress">🔄 กำลังดำเนินการ</option>
+            <option value="done">✅ แก้ไขเสร็จสิ้น</option>
+          </select>
+        </div>
+        <div class="fg"><label class="lbl">วันที่แก้ไข</label><input class="inp" id="mgr-date" type="date"></div>
+      </div>
+      <div class="fg"><label class="lbl">วิธีการแก้ไข / หมายเหตุ</label><textarea class="inp" id="mgr-note" rows="2" placeholder="อธิบายวิธีการแก้ไข"></textarea></div>
+      <div class="fg"><label class="lbl">ชื่อหัวหน้างาน/เจ้าของพื้นที่</label><input class="inp" id="mgr-name" placeholder="ชื่อ-นามสกุล"></div>
+      <div class="fg">
+        <label class="lbl">📷 รูปภาพหลังการแก้ไข</label>
+        <div class="img-zone" id="zone-mgr" onclick="document.getElementById('inp-mgr').click()" style="min-height:110px;background:#e0f2fe;border-color:#7dd3fc">
+          <div class="img-zone-ph" id="ph-mgr"><div class="ic">📁</div><div class="tx">คลิกเพื่อแนบรูปหลังแก้ไข</div></div>
+        </div>
+        <input type="file" id="inp-mgr" accept="image/*" style="display:none" onchange="pickImg(this,'zone-mgr','ph-mgr','mgr')">
+      </div>
+      <button class="btn btn-full" style="background:#0369a1;color:#fff" onclick="saveMgr()">💾 บันทึกการอัปเดต</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div class="page" id="pg-dash">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div>
+      <h2 style="font-size:18px;font-weight:700">📊 Dashboard ภาพรวม RSS</h2>
+      <div style="font-size:12px;color:#94a3b8">ติดตามและอัปเดตสถานะ</div>
+    </div>
+  </div>
+  <div class="kpi-row" id="kpi-row"></div>
+  <div class="tab-row">
+    <button class="tab-btn on" id="tab-dept" onclick="setTab('dept')">🏭 แยกตามแผนก</button>
+    <button class="tab-btn" id="tab-area" onclick="setTab('area')">📍 แยกตามพื้นที่ 5ส.</button>
+  </div>
+  <div class="db-grid">
+    <div class="db-sec"><div class="db-sec-title">📈 ระดับความรุนแรง</div><div id="chart-sev"></div></div>
+    <div class="db-sec"><div class="db-sec-title" id="chart2-title">🏭 Top 5 แผนก</div><div id="chart-top"></div></div>
+  </div>
+  <div class="db-sec" style="margin-bottom:14px">
+    <div class="db-sec-title" id="dash-table-title">🏭 ตารางติดตามตามแผนก</div>
+    <div style="overflow-x:auto"><table class="db-table"><thead id="dash-thead"></thead><tbody id="dash-tbody"></tbody></table></div>
+  </div>
+  <div class="db-sec">
+    <div class="db-sec-title">🕐 รายการล่าสุด 5 รายการ</div>
+    <div style="overflow-x:auto"><table class="db-table"><thead><tr><th>ชื่อ</th><th>แผนก</th><th>พื้นที่ 5ส.</th><th>ระดับ</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody id="recent-tbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ==================== SCRIPT ==================== -->
+<script>
+// ============================================================
+//  CONFIG — ใส่ Apps Script URL ที่นี่
+// ============================================================
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGlsxaVZmyweiqwKbkPL1pUh4hZT-keTfX9kVezcIj8VjFEDdXVbrfPASQISuDixI/exec";
+// รูปเก็บใน Google Drive, serve ผ่าน Apps Script proxy
+
+// ============================================================
+//  STATE
+// ============================================================
+let data = [];       // submissions ทั้งหมด
+let detIdx = -1;     // index ของ detail ที่กำลังดู
+let imgBefore = null, imgAfter = null, imgMgr = null;
+let dashTab = 'dept';
+let listFilter = 'all';
+const SEV_COLOR = {A:'#dc2626',B:'#ea580c',C:'#ca8a04'};
+const SEV_BG    = {A:'#fee2e2',B:'#ffedd5',C:'#fef9c3'};
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function go(pg) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('act'));
+  document.getElementById('pg-'+pg).classList.add('act');
+  if(pg==='list') renderList();
+  if(pg==='dash') renderDash();
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+//  API — Google Apps Script (GET)
+// ============================================================
+function apiGet(params) {
+  return new Promise(resolve => {
+    const cbName = '_rss_cb_' + Date.now();
+    const qs = Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(typeof v==='object'?JSON.stringify(v):v)).join('&');
+    const url = SCRIPT_URL + '?' + qs + '&cb=' + cbName + '&t=' + Date.now();
+    window[cbName] = (res) => { try{script.remove()}catch(e){} delete window[cbName]; resolve(res); };
+    const script = document.createElement('script');
+    script.src = url;
+    script.onerror = () => { try{script.remove()}catch(e){} delete window[cbName]; resolve(null); };
+    document.head.appendChild(script);
+    setTimeout(() => { try{script.remove()}catch(e){} delete window[cbName]; resolve(null); }, 10000);
+  });
+}
+
+function apiPost(payload) {
+  return fetch(SCRIPT_URL, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body: JSON.stringify(payload)
+  }).catch(()=>{});
+}
+
+// ส่งรูปไป Apps Script ผ่าน POST → Drive → URL เข้า Sheets อัตโนมัติ
+function uploadImgBackground(base64DataUrl, field, rowId) {
+  if(!base64DataUrl || base64DataUrl.startsWith('http')) return;
+  if(!SCRIPT_URL || SCRIPT_URL.includes('วาง_URL')) return;
+  // POST no-cors: ไม่มี response กลับ แต่ Apps Script รับได้แน่นอน
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode:   'no-cors',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify({
+      action: 'uploadImg',
+      rowId:  String(rowId),
+      field:  field,
+      base64: base64DataUrl
+    })
+  }).catch(()=>{});
+  // URL จะปรากฏใน Sheets หลัง Apps Script ทำงานเสร็จ (~5-10 วิ)
+  // ครั้งต่อไปที่ refresh จะโหลด URL มาแสดงได้
+}
+
+// ============================================================
+//  LOAD DATA
+// ============================================================
+async function loadData() {
+  showLoad(true);
+  try {
+    const res = await apiGet({action:'getAll'});
+    if(res && res.rows && res.rows.length > 0) {
+      data = res.rows;
+      saveLocal(data);
+    } else {
+      data = loadLocal();
+    }
+  } catch(e) {
+    data = loadLocal();
+  }
+  mergeLocalImgs(data);
+  updateCount();
+  showLoad(false);
+}
+
+async function doRefresh() {
+  await loadData();
+  const cur = document.querySelector('.page.act')?.id?.replace('pg-','');
+  if(cur==='list') renderList();
+  if(cur==='dash') renderDash();
+}
+
+// ============================================================
+//  LOCAL STORAGE (cache + img cache)
+// ============================================================
+const LKEY = 'rss_v5';
+const IKEY = 'rss_img_v5';
+
+function saveLocal(items) {
+  // บันทึกรูปแยก
+  try {
+    const imgs = JSON.parse(localStorage.getItem(IKEY)||'{}');
+    items.forEach(s => {
+      const k = String(s.id);
+      if(!imgs[k]) imgs[k] = {};
+      if(s.imageBeforePreview) imgs[k].b = s.imageBeforePreview;
+      if(s.imageAfterPreview)  imgs[k].a = s.imageAfterPreview;
+    });
+    localStorage.setItem(IKEY, JSON.stringify(imgs));
+  } catch(e){}
+  // บันทึก data ไม่รวมรูป
+  try {
+    const slim = items.map(s => {
+      const c={...s};
+      // เก็บรูป (ทั้ง base64 และ URL) ใน IKEY แยก แล้วตัดออกจาก slim
+      const k = String(c.id);
+      if(c.imageBeforePreview) { saveImg(k,'b',c.imageBeforePreview); delete c.imageBeforePreview; }
+      if(c.imageAfterPreview)  { saveImg(k,'a',c.imageAfterPreview);  delete c.imageAfterPreview; }
+      return c;
+    });
+    localStorage.setItem(LKEY, JSON.stringify(slim));
+  } catch(e){}
+}
+
+function loadLocal() {
+  try { return JSON.parse(localStorage.getItem(LKEY)||'[]'); } catch(e){ return []; }
+}
+
+function mergeLocalImgs(items) {
+  try {
+    const imgs = JSON.parse(localStorage.getItem(IKEY)||'{}');
+    items.forEach(s => {
+      const key = String(s.id);
+      if(imgs[key]) {
+        // merge เฉพาะกรณีที่ยังไม่มีรูป หรือมีแค่ base64 (Drive URL ดีกว่า)
+        if(!s.imageBeforePreview && imgs[key].b) s.imageBeforePreview = imgs[key].b;
+        if(!s.imageAfterPreview  && imgs[key].a) s.imageAfterPreview  = imgs[key].a;
+      }
+    });
+  } catch(e){}
+}
+
+function saveImg(id, key, url) {
+  try {
+    const imgs = JSON.parse(localStorage.getItem(IKEY)||'{}');
+    const k = String(id);
+    if(!imgs[k]) imgs[k]={};
+    imgs[k][key] = url;
+    localStorage.setItem(IKEY, JSON.stringify(imgs));
+  } catch(e){}
+}
+
+// ============================================================
+//  IMAGE HELPERS
+// ============================================================
+// แปลง Drive URL ให้ใช้ใน <img src> ได้
+function driveImgUrl(url) {
+  if(!url) return '';
+  if(url.startsWith('data:')) return url;
+  const m = url.match(/[?&]id=([^&]+)/);
+  if(m) return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w800';
+  const m2 = url.match(/\/d\/([^/]+)\//);
+  if(m2) return 'https://drive.google.com/thumbnail?id='+m2[1]+'&sz=w800';
+  return url;
+}
+
+// บีบอัดอัตโนมัติ — ลดขนาดจนได้ target bytes
+function smartCompress(dataUrl, targetBytes, cb) {
+  const img = new Image();
+  img.onload = () => {
+    const ow = img.width, oh = img.height;
+    const steps = [
+      {maxPx:1920, q:0.92},
+      {maxPx:1280, q:0.88},
+      {maxPx:1024, q:0.85},
+      {maxPx:800,  q:0.80},
+      {maxPx:600,  q:0.75},
+      {maxPx:500,  q:0.70},
+      {maxPx:400,  q:0.65},
+      {maxPx:300,  q:0.60},
+    ];
+    const tryStep = (idx, prev) => {
+      if(idx >= steps.length) { cb(prev); return; }
+      const {maxPx, q} = steps[idx];
+      let w=ow, h=oh;
+      if(w>maxPx){h=Math.round(h*maxPx/w);w=maxPx;}
+      if(h>maxPx){w=Math.round(w*maxPx/h);h=maxPx;}
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      const out = c.toDataURL('image/jpeg', q);
+      // approx bytes
+      if(out.length * 0.75 <= targetBytes) { cb(out); }
+      else { tryStep(idx+1, out); }
+    };
+    // ตรวจขนาดเดิมก่อน ถ้าเล็กพออยู่แล้วไม่ต้องบีบ
+    if(dataUrl.length * 0.75 <= targetBytes) { cb(dataUrl); return; }
+    tryStep(0, dataUrl);
+  };
+  img.src = dataUrl;
+}
+
+function pickImg(input, zoneId, phId, key) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    // target 200KB — คมชัด ส่งผ่าน POST no-cors
+    smartCompress(e.target.result, 200*1024, compressed => {
+      const zone = document.getElementById(zoneId);
+      const ph   = document.getElementById(phId);
+      zone.querySelectorAll('.thumb').forEach(t=>t.remove());
+      const thumb = document.createElement('img');
+      thumb.className='thumb'; thumb.src=compressed;
+      zone.appendChild(thumb);
+      if(ph) ph.style.display='none';
+      if(key==='before') imgBefore=compressed;
+      else if(key==='after') imgAfter=compressed;
+      else if(key==='mgr') imgMgr=compressed;
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+//  FORM
+// ============================================================
+function toggleHaz(el) {
+  const cb = el.querySelector('input');
+  cb.checked = !cb.checked;
+  el.classList.toggle('on', cb.checked);
+}
+
+function onSev() {
+  ['A','B','C'].forEach(v => {
+    const el = document.getElementById('sev-'+v);
+    const checked = el.querySelector('input').checked;
+    el.className = 'sev-opt' + (checked?' '+v+'-on':'');
+  });
+}
+
+function getCheckedHaz() {
+  return [...document.querySelectorAll('#haz-grid .haz-item.on input')].map(i=>i.value);
+}
+
+function getSev() {
+  const r = document.querySelector('input[name="sev"]:checked');
+  return r ? r.value : '';
+}
+
+function resetForm() {
+  ['f-name','f-emp','f-area','f-equip','f-suggest'].forEach(id => {
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('f-dept').value='';
+  document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
+  document.querySelectorAll('#haz-grid .haz-item').forEach(el => {
+    el.classList.remove('on'); el.querySelector('input').checked=false;
+  });
+  document.querySelectorAll('input[name="sev"]').forEach(r=>r.checked=false);
+  ['A','B','C'].forEach(v => { const el=document.getElementById('sev-'+v); if(el) el.className='sev-opt'; });
+  resetZone('zone-b','ph-b'); resetZone('zone-a','ph-a');
+  document.getElementById('inp-b').value='';
+  document.getElementById('inp-a').value='';
+  imgBefore=null; imgAfter=null;
+}
+
+function resetZone(zoneId, phId) {
+  const zone=document.getElementById(zoneId); if(!zone) return;
+  zone.querySelectorAll('.thumb').forEach(t=>t.remove());
+  const ph=document.getElementById(phId); if(ph) ph.style.display='';
+}
+
+async function submitForm() {
+  const name=document.getElementById('f-name').value.trim();
+  const emp =document.getElementById('f-emp').value.trim();
+  const dept=document.getElementById('f-dept').value.trim();
+  const area=document.getElementById('f-area').value.trim();
+  if(!name||!emp||!dept||!area){ showErr('กรุณากรอกข้อมูลที่จำเป็น (ชื่อ, รหัส, แผนก, พื้นที่)'); return; }
+  const sev=getSev();
+  if(!sev){ showErr('กรุณาเลือกระดับความรุนแรง'); return; }
+
+  const btn=document.getElementById('btn-submit');
+  btn.disabled=true; btn.textContent='⏳ กำลังส่ง...';
+
+  const item = {
+    id: Date.now(),
+    submittedAt: new Date().toISOString(),
+    name, employeeId:emp, department:dept, date:document.getElementById('f-date').value,
+    workArea:area, hazardEquipment:document.getElementById('f-equip').value.trim(),
+    hazardTypes:getCheckedHaz(), severityLevel:sev,
+    suggestion:document.getElementById('f-suggest').value.trim(),
+    imageBeforePreview: imgBefore||'',
+    imageAfterPreview:  imgAfter||'',
+    mgrStatus:'pending'
+  };
+
+  // บันทึกทันที ใช้ base64 แสดงรูปก่อน
+  item.imageBeforePreview = imgBefore || '';
+  item.imageAfterPreview  = imgAfter  || '';
+
+  // บันทึก local
+  data.unshift(item);
+  saveLocal(data);
+  if(imgBefore) saveImg(item.id,'b', imgBefore);
+  if(imgAfter)  saveImg(item.id,'a', imgAfter);
+
+  // ส่งข้อมูลไป Sheets
+  try {
+    // ส่งข้อมูลหลัก (ไม่รวมรูป)
+    await apiGet({action:'add', item: JSON.stringify({...item, imageBeforePreview:'', imageAfterPreview:''})});
+  } catch(e){}
+
+  // ส่งรูปผ่าน POST ในพื้นหลัง (ไม่จำกัดขนาด)
+  if(imgBefore) uploadImgBackground(imgBefore, 'imageBeforePreview', item.id);
+  if(imgAfter)  uploadImgBackground(imgAfter,  'imageAfterPreview',  item.id);
+
+  updateCount();
+  resetForm();
+  btn.disabled=false; btn.textContent='✅ ส่งข้อเสนอแนะ';
+  showToast('✅ ส่งข้อเสนอแนะเรียบร้อยแล้ว!','ok');
+}
+
+// ============================================================
+//  LIST
+// ============================================================
+let listFilterVal='all';
+function setFilter(f, el) {
+  listFilterVal=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderList();
+}
+
+function renderList() {
+  let items = data;
+  if(listFilterVal==='A'||listFilterVal==='B'||listFilterVal==='C') items=data.filter(s=>s.severityLevel===listFilterVal);
+  else if(listFilterVal==='pending') items=data.filter(s=>!s.mgrStatus||s.mgrStatus==='pending');
+  else if(listFilterVal==='done') items=data.filter(s=>s.mgrStatus==='done');
+
+  document.getElementById('list-count-lbl').textContent = items.length + ' รายการ';
+  const body = document.getElementById('list-body');
+  if(!items.length){ body.innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8">ยังไม่มีรายการ</div>'; return; }
+
+  body.innerHTML = items.map((s,i) => {
+    const ri = data.indexOf(s);
+    const sc=SEV_COLOR[s.severityLevel]||'#94a3b8', bg=SEV_BG[s.severityLevel]||'#f1f5f9';
+    const dt=new Date(s.submittedAt).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const stCls = s.mgrStatus==='done'?'st-done':s.mgrStatus==='inprogress'?'st-inprogress':'st-pending';
+    const stTxt = s.mgrStatus==='done'?'✅ แก้ไขแล้ว':s.mgrStatus==='inprogress'?'🔄 ดำเนินการ':'⏳ รอดำเนินการ';
+    return `<div class="list-item">
+      <div class="list-left">
+        <div class="sev-badge" style="background:${bg};color:${sc}">${s.severityLevel||'?'}</div>
+        <div>
+          <div class="list-name">${esc(s.name)}</div>
+          <div class="list-sub">${esc(s.department)} • ${esc(s.workArea)} ${s.jorArea?'• 📍'+esc(s.jorArea):''}</div>
+        </div>
+      </div>
+      <div class="list-right">
+        <span class="status-badge ${stCls}">${stTxt}</span>
+        <span style="font-size:11px;color:#94a3b8">${dt}</span>
+        <button class="btn btn-gray btn-sm" onclick="showDetail(${ri})">รายละเอียด →</button>
+        <button class="btn btn-sm" style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe" onclick="printPDF(${ri})">🖨️</button>
+        <button class="btn btn-red btn-sm" onclick="delItem(${ri})">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+//  DETAIL
+// ============================================================
+function showDetail(idx) {
+  detIdx=idx;
+  const s=data[idx];
+  const sc=SEV_COLOR[s.severityLevel]||'#94a3b8';
+
+  // badge header
+  document.getElementById('det-sev-badge').innerHTML = s.severityLevel
+    ? `<span style="padding:4px 14px;border-radius:20px;background:${SEV_BG[s.severityLevel]||'#f1f5f9'};border:1.5px solid ${sc};color:${sc};font-weight:700;font-size:13px">ระดับ ${s.severityLevel}</span>` : '';
+
+  // ---- helper: สร้าง detail-grid HTML ----
+  function infoGrid(fields) {
+    return fields.map(([l,v,style])=>
+      `<div class="detail-box"><div class="detail-lbl">${l}</div><div class="detail-val" ${style?`style="${style}"`:''}>${esc(String(v||'-'))}</div></div>`
+    ).join('');
+  }
+  function hazHtml(types) {
+    return (types||[]).map(h=>`<span style="display:inline-block;margin:0 4px 4px 0;padding:2px 10px;border-radius:20px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:12px">${esc(h)}</span>`).join('');
+  }
+  function suggestHtml(txt) {
+    return txt ? `<div style="background:#f8fafc;border-radius:8px;padding:10px 14px;border-left:3px solid #1d4ed8;font-size:13px">${esc(txt)}</div>` : '';
+  }
+  // แปลง Drive open URL → thumbnail URL สำหรับใช้ใน <img>
+  function driveImgUrl(url) {
+    if(!url) return '';
+    if(url.startsWith('data:')) return url;
+    const m = url.match(/[?&]id=([^&]+)/);
+    if(m) return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w800';
+    const m2 = url.match(/\/d\/([^/]+)\//);
+    if(m2) return 'https://drive.google.com/thumbnail?id='+m2[1]+'&sz=w800';
+    return url;
+  }
+
+  function imgHtml(b, a, showAfter) {
+    b = driveImgUrl(b); a = driveImgUrl(a);
+    let h='';
+    if(b) h+=`<div style="margin-bottom:8px"><div class="lbl" style="margin-bottom:4px">รูปก่อน</div><img src="${b}" style="width:100%;border-radius:8px;border:1px solid #e2e8f0" onerror="this.style.display='none'"></div>`;
+    if(showAfter && a) h+=`<div><div class="lbl" style="margin-bottom:4px">รูปหลัง</div><img src="${a}" style="width:100%;border-radius:8px;border:1px solid #e2e8f0" onerror="this.style.display='none'"></div>`;
+    return h || '<div style="color:#94a3b8;font-size:12px">ยังไม่มีรูปภาพ</div>';
+  }
+
+  const empFields = [
+    ['ชื่อ-นามสกุล', s.name],
+    ['รหัสพนักงาน', s.employeeId],
+    ['แผนก', s.department],
+    ['วันที่', s.date ? (s.date.includes('T') ? new Date(s.date).toLocaleDateString('th-TH',{day:'2-digit',month:'2-digit',year:'numeric'}) : s.date) : '-'],
+    ['พื้นที่ปฏิบัติงาน', s.workArea],
+    ['เครื่องจักร/อุปกรณ์', s.hazardEquipment||'-'],
+    ['ระดับความรุนแรง (ผู้แจ้ง)', s.jorSevOriginal ? 'ระดับ '+s.jorSevOriginal+' (ถูกปรับโดย จป.)' : (s.severityLevel ? 'ระดับ '+s.severityLevel : '-'), s.jorSevOriginal ? 'color:#94a3b8;text-decoration:line-through' : `color:${sc};font-weight:700`],
+  ];
+  // ถ้า จป. เปลี่ยนระดับ ให้เพิ่มแถวระดับใหม่
+  if(s.jorSevOriginal && s.jorSevOriginal !== s.severityLevel) {
+    empFields.push(['⚠️ ระดับที่ จป. ปรับ', 'ระดับ '+s.severityLevel, `color:${sc};font-weight:900`]);
+  }
+
+  // ===== TAB พนักงาน =====
+  document.getElementById('det-info').innerHTML = infoGrid(empFields);
+  document.getElementById('det-haz').innerHTML = hazHtml(s.hazardTypes);
+  document.getElementById('det-suggest').innerHTML = suggestHtml(s.suggestion);
+  document.getElementById('det-imgs-emp').innerHTML = imgHtml(s.imageBeforePreview, null, false);
+
+  // ===== TAB จป. =====
+  document.getElementById('jor-view-emp').innerHTML = infoGrid(empFields);
+  document.getElementById('jor-view-haz').innerHTML = hazHtml(s.hazardTypes);
+  document.getElementById('jor-view-suggest').innerHTML = suggestHtml(s.suggestion);
+  document.getElementById('jor-view-img').innerHTML = imgHtml(s.imageBeforePreview, null, false);
+  // ฟอร์ม จป.
+  document.getElementById('jor-area').value = s.jorArea||'';
+  document.getElementById('jor-other-wrap').style.display = 'none';
+  document.getElementById('jor-note').value = s.jorNote||'';
+  document.getElementById('jor-sev').value = '';
+
+  // ===== TAB หัวหน้างาน =====
+  document.getElementById('mgr-view-emp').innerHTML = infoGrid(empFields);
+  document.getElementById('mgr-view-haz').innerHTML = hazHtml(s.hazardTypes);
+  document.getElementById('mgr-view-suggest').innerHTML = suggestHtml(s.suggestion);
+  document.getElementById('mgr-view-img').innerHTML = imgHtml(s.imageBeforePreview, null, false);
+  // ข้อมูล จป. สำหรับหัวหน้างาน
+  const jorCard = document.getElementById('mgr-view-jor-card');
+  jorCard.style.display='block';
+  if(s.jorArea) {
+    const sevLabel = {A:'ระดับ A — ตาย/พิการ/สูญเสียอวัยวะ',B:'ระดับ B — บาดเจ็บ/หยุดการผลิต',C:'ระดับ C — บาดเจ็บเล็กน้อย'};
+    const jorFields = [
+      ['📍 พื้นที่ (5ส.)', s.jorArea, 'color:#d97706;font-weight:700'],
+      ['⚠️ ระดับอันตราย', sevLabel[s.severityLevel]||s.severityLevel, `color:${sc};font-weight:700`],
+    ];
+    if(s.jorNote) jorFields.push(['📝 หมายเหตุ จป.', s.jorNote]);
+    if(s.jorUpdatedAt) jorFields.push(['🕐 อัปเดตเมื่อ', new Date(s.jorUpdatedAt).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'})]);
+    document.getElementById('mgr-view-jor').innerHTML = infoGrid(jorFields);
+    const chgEl = document.getElementById('mgr-view-jor-chg');
+    if(s.jorSevOriginal && s.jorSevOriginal!==s.severityLevel) {
+      chgEl.style.display='block';
+      chgEl.innerHTML=`⚠️ จป. แก้ไขระดับจาก <strong>${s.jorSevOriginal}</strong> → <strong>${s.severityLevel}</strong>`;
+    } else { chgEl.style.display='none'; }
+  } else {
+    document.getElementById('mgr-view-jor').innerHTML = '<div style="color:#94a3b8;font-size:13px;padding:8px 0;grid-column:1/-1">⏳ รอ จป.วิชาชีพ กรอกข้อมูล</div>';
+    document.getElementById('mgr-view-jor-chg').style.display='none';
+  }
+  // ฟอร์มหัวหน้างาน
+  document.getElementById('mgr-status').value = s.mgrStatus||'pending';
+  document.getElementById('mgr-date').value = s.mgrDate||'';
+  document.getElementById('mgr-note').value = s.mgrNote||'';
+  document.getElementById('mgr-name').value = s.mgrName||'';
+  resetZone('zone-mgr','ph-mgr');
+  imgMgr=null;
+  if(s.imageAfterPreview){
+    const zone=document.getElementById('zone-mgr');
+    const ph=document.getElementById('ph-mgr');
+    zone.querySelectorAll('.thumb').forEach(t=>t.remove());
+    const thumb=document.createElement('img'); thumb.className='thumb'; thumb.src=s.imageAfterPreview;
+    zone.appendChild(thumb); if(ph) ph.style.display='none';
+  }
+
+  setRoleTab('emp');
+  go('detail');
+}
+
+document.getElementById('jor-area').addEventListener('change',function(){
+  document.getElementById('jor-other-wrap').style.display=this.value==='other'?'block':'none';
+});
+
+
+
+function setRoleTab(tab) {
+  ['emp','jor','mgr'].forEach(t => {
+    document.getElementById('rtab-'+t).classList.toggle('on', t===tab);
+    document.getElementById('rpane-'+t).classList.toggle('on', t===tab);
+  });
+}
+
+async function saveJor() {
+  if(detIdx<0) return;
+  const areaVal=document.getElementById('jor-area').value;
+  const area = areaVal==='other'?(document.getElementById('jor-other').value.trim()||'อื่นๆ'):areaVal;
+  if(!area){ showToast('กรุณาเลือกพื้นที่','err'); return; }
+  const sev=document.getElementById('jor-sev').value;
+  const note=document.getElementById('jor-note').value.trim();
+  const s=data[detIdx];
+  s.jorArea=area; s.jorNote=note; s.jorUpdatedAt=new Date().toISOString();
+  if(sev){ s.jorSevOriginal=s.severityLevel; s.severityLevel=sev; }
+  const btn=event.target;
+  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  await sendUpdate(s);
+  btn.disabled=false; btn.textContent='💾 บันทึกข้อมูล จป.';
+  showToast('✅ บันทึกข้อมูล จป. เรียบร้อยแล้ว!','ok');
+  showDetail(detIdx); renderList();
+}
+
+async function saveMgr() {
+  if(detIdx<0) return;
+  const s=data[detIdx];
+  s.mgrStatus=document.getElementById('mgr-status').value;
+  s.mgrDate  =document.getElementById('mgr-date').value;
+  s.mgrNote  =document.getElementById('mgr-note').value.trim();
+  s.mgrName  =document.getElementById('mgr-name').value.trim();
+  s.mgrUpdatedAt=new Date().toISOString();
+  const btn=event.target;
+  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
+  if(imgMgr) {
+    s.imageAfterPreview = imgMgr; // แสดงทันทีจาก base64
+    saveImg(s.id,'a', imgMgr);
+    uploadImgBackground(imgMgr, 'imageAfterPreview', s.id); // อัปโหลด Drive ในพื้นหลัง
+  }
+  await sendUpdate(s);
+  btn.disabled=false; btn.textContent='💾 บันทึกการอัปเดต';
+  showToast('✅ บันทึกการอัปเดตเรียบร้อยแล้ว!','ok');
+  showDetail(detIdx); renderList();
+}
+
+async function sendUpdate(s) {
+  saveLocal(data);
+  const toSend = {...s};
+  // ตัด base64 ออกก่อนส่ง Sheets (ส่งแยกผ่าน POST)
+  if(toSend.imageBeforePreview && toSend.imageBeforePreview.startsWith('data:')) toSend.imageBeforePreview='';
+  if(toSend.imageAfterPreview  && toSend.imageAfterPreview.startsWith('data:'))  toSend.imageAfterPreview='';
+  await apiGet({action:'update', item:JSON.stringify(toSend)});
+}
+
+// ============================================================
+//  DELETE
+// ============================================================
+async function delItem(idx) {
+  if(!confirm('ลบรายการนี้?')) return;
+  const id=data[idx].id;
+  data.splice(idx,1);
+  saveLocal(data);
+  updateCount(); renderList();
+  showToast('🗑 ลบรายการเรียบร้อยแล้ว','ok');
+  await apiGet({action:'delete', id});
+}
+
+// ============================================================
+//  PDF PRINT
+// ============================================================
+function printDetail(){ if(detIdx>=0) printPDF(detIdx); }
+
+function printPDF(idx) {
+  const s=data[idx];
+  const ht=s.hazardTypes||[];
+  const chk=v=>v?'&#9745;':'&#9744;';
+  const h1=chk(ht.some(x=>x.includes('เครื่องจักร')));
+  const h2=chk(ht.some(x=>x.includes('วัตถุหนัก')));
+  const h3=chk(ht.some(x=>x.includes('ยานพาหนะ')));
+  const h4=chk(ht.some(x=>x.includes('ตกจากที่สูง')));
+  const h5=chk(ht.some(x=>x.includes('ไฟฟ้า')));
+  const h6=chk(ht.some(x=>x.includes('อื่นๆ')||x.includes('อื่น')));
+  const sA=chk(s.severityLevel==='A'), sB=chk(s.severityLevel==='B'), sC=chk(s.severityLevel==='C');
+  // โหลดรูปจาก localStorage (base64) ก่อน ถ้าไม่มีใช้ Drive thumbnail URL
+  const localImgs = (() => { try { return JSON.parse(localStorage.getItem('rss_img_v5')||'{}'); } catch(e){return {};} })();
+  const lid = String(s.id);
+  const rawB = (localImgs[lid]?.b) ? localImgs[lid].b : (s.imageBeforePreview||'');
+  const rawA = (localImgs[lid]?.a) ? localImgs[lid].a : (s.imageAfterPreview||'');
+  const imgB = driveImgUrl(rawB);
+  const imgA = driveImgUrl(rawA);
+  const sevChg=s.jorSevOriginal?`<div style="font-size:8px;color:#dc2626">*แก้ไขระดับจาก ${s.jorSevOriginal} → ${s.severityLevel} โดย จป.วิชาชีพ</div>`:'';
+  const mgrDone=s.mgrStatus==='done', mgrProg=s.mgrStatus==='inprogress', mgrPend=!s.mgrStatus||s.mgrStatus==='pending';
+
+  const w=window.open('','_blank','width=860,height=700');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>RSS Form</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;900&display=swap');
+@page{size:A4 portrait;margin:8mm 10mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Sarabun',sans-serif;font-size:10.5px;color:#000;background:#fff;width:190mm}
+.hdr{display:flex;align-items:stretch;border:2px solid #1a237e;margin-bottom:3mm}
+.hdr-logo{width:20mm;border-right:2px solid #1a237e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3mm;flex-shrink:0;font-size:18px;font-weight:900;color:#1a237e}
+.hdr-title{flex:1;display:flex;align-items:center;justify-content:center;padding:3mm}
+.hdr-title h1{font-size:24px;font-weight:900;color:#1a237e}
+.info-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 0.9fr;border:1px solid #555;margin-bottom:1.5mm}
+.ic{padding:2mm 3mm;border-right:1px solid #555}
+.ic:last-child{border-right:none}
+.il{font-size:8px;color:#444;text-decoration:underline;margin-bottom:1mm}
+.iv{font-size:11px;font-weight:700;min-height:5mm;border-bottom:1px dotted #aaa}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid #555;border-top:none;margin-bottom:3mm}
+.body{display:grid;grid-template-columns:1fr 76mm;gap:3mm;margin-bottom:3mm}
+.left{display:flex;flex-direction:column;gap:2.5mm}
+.box{border:1px solid #999;padding:2.5mm 3mm;border-radius:2px}
+.btitle{font-size:10px;font-weight:700;color:#1a237e;text-decoration:underline;margin-bottom:2mm}
+.cbs{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 4mm;margin-bottom:3mm}
+.cb{display:flex;align-items:center;gap:2mm;font-size:10px}
+.cbsym{font-size:14px;line-height:1}
+.sevs{display:flex;gap:4mm;margin-top:1mm}
+.sevlbl{font-size:9.5px;font-weight:700;white-space:nowrap;align-self:flex-start;padding-top:1mm}
+.sevlist{display:flex;flex-direction:column;gap:1mm}
+.sevrow{display:flex;align-items:center;gap:2mm;font-size:10px}
+.suggest{flex:1;border:1px solid #999;padding:2.5mm 3mm;min-height:22mm}
+.right{display:flex;flex-direction:column;gap:2mm}
+.imgblock{flex:1;display:flex;flex-direction:column}
+.imglabel{font-size:22px;font-weight:900;color:#1a237e;font-style:italic;text-align:center;margin-bottom:1mm}
+.imgframe{flex:1;border:2px solid #999;display:flex;align-items:center;justify-content:center;min-height:72mm;overflow:hidden;background:#fafafa}
+.imgframe img{width:100%;height:100%;object-fit:contain;display:block}
+.imgframe .noimg{font-size:14px;color:#ccc;text-align:center;padding:10mm}
+.mgrbox{border:1.5px solid #2563eb;border-radius:3px;padding:2.5mm 3mm;background:#eff6ff;margin-bottom:2mm}
+.apvbox{border:1px solid #999;padding:2.5mm 3mm;margin-bottom:2.5mm}
+.apvrow{display:flex;align-items:center;gap:2mm;font-size:10px;margin-bottom:1.5mm}
+.sigs{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #999}
+.sigcell{padding:2mm 3mm;border-right:1px solid #999;min-height:16mm;display:flex;flex-direction:column;justify-content:flex-end}
+.sigcell:last-child{border-right:none}
+.signame{font-size:8.5px;color:#555;text-align:center;border-top:1px dotted #aaa;padding-top:1mm;margin-top:auto}
+.footer{display:flex;justify-content:space-between;font-size:8px;color:#666;margin-top:2mm;padding-top:1mm;border-top:1px solid #ddd}
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body>
+<div class="hdr">
+  <div class="hdr-logo">AAM<div style="font-size:8px;font-weight:400;color:#555">Safety</div></div>
+  <div class="hdr-title"><h1>RSS : Risk Safety Suggestion</h1></div>
+</div>
+<div class="info-grid">
+  <div class="ic"><div class="il">ชื่อ - นามสกุล</div><div class="iv">${s.name||''}</div></div>
+  <div class="ic"><div class="il">รหัสพนักงาน</div><div class="iv">${s.employeeId||''}</div></div>
+  <div class="ic"><div class="il">แผนก</div><div class="iv">${s.department||''}</div></div>
+  <div class="ic"><div class="il">วันที่</div><div class="iv" style="font-size:9px">${s.date||''}</div></div>
+</div>
+<div class="area-grid">
+  <div class="ic"><div class="il">1. ระบุงานที่ทำ และพื้นที่ปฏิบัติงาน</div><div class="iv" style="font-size:10px">${s.workArea||''}</div></div>
+  <div class="ic"><div class="il">2. ระบุเครื่องจักร/อุปกรณ์ที่ทำให้เกิดอันตราย</div><div class="iv" style="font-size:10px">${s.hazardEquipment||''}</div></div>
+</div>
+<div class="body">
+  <div class="left">
+    <div class="box">
+      <div class="btitle">3. ระบุอันตรายที่เกิด (stop 6 type) และอวัยวะที่จะได้รับอันตราย</div>
+      <div class="cbs">
+        <div class="cb"><span class="cbsym">${h1}</span> 1. อันตรายจากเครื่องจักร</div>
+        <div class="cb"><span class="cbsym">${h4}</span> 4. อันตรายจากการตกจากที่สูง</div>
+        <div class="cb"><span class="cbsym">${h2}</span> 2. อันตรายจากวัตถุหนักตกใส่</div>
+        <div class="cb"><span class="cbsym">${h5}</span> 5. อันตรายจากกระแสไฟฟ้า</div>
+        <div class="cb"><span class="cbsym">${h3}</span> 3. อันตรายจากยานพาหนะ</div>
+        <div class="cb"><span class="cbsym">${h6}</span> 6. อื่นๆ (ไฟไหม้, ของมีคม, วัตถุร้อน)</div>
+      </div>
+      <div class="sevs">
+        <div class="sevlbl">การประเมินความ<br>รุนแรง</div>
+        <div class="sevlist">
+          <div class="sevrow"><span class="cbsym">${sA}</span> ระดับ A : ตาย พิการ หรือสูญเสียอวัยวะ</div>
+          <div class="sevrow"><span class="cbsym">${sB}</span> ระดับ B : บาดเจ็บ หรือหยุดการผลิต</div>
+          <div class="sevrow"><span class="cbsym">${sC}</span> ระดับ C : บาดเจ็บเล็กน้อย หรือไม่หยุดการผลิต</div>
+        </div>
+      </div>
+      ${sevChg}
+    </div>
+    <div class="suggest">
+      <div class="btitle">4. ผู้ปฏิบัติงานทำการเสนอแนะ เพื่อปรับปรุง</div>
+      <div style="font-size:11px;line-height:1.6;white-space:pre-wrap">${s.suggestion||''}</div>
+    </div>
+    ${s.mgrStatus?`<div class="mgrbox">
+      <div style="font-size:9.5px;font-weight:700;color:#1d4ed8;margin-bottom:2mm">ผลการแก้ไข (หัวหน้างาน)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1mm;font-size:9.5px">
+        <div><b>สถานะ:</b> ${s.mgrStatus==='done'?'✅ แก้ไขแล้ว':s.mgrStatus==='inprogress'?'🔄 กำลังดำเนินการ':'⏳ รอดำเนินการ'}</div>
+        <div><b>วันที่:</b> ${s.mgrDate||'-'}</div>
+        <div><b>หัวหน้างาน:</b> ${s.mgrName||'-'}</div>
+        ${s.mgrNote?`<div><b>หมายเหตุ:</b> ${s.mgrNote}</div>`:''}
+      </div>
+    </div>`:''}
+  </div>
+  <div class="right">
+    <div class="imgblock">
+      <div class="imglabel">ก่อน</div>
+      <div class="imgframe">${imgB?`<img src="${imgB}">`:`<div class="noimg">รูปภาพ</div>`}</div>
+    </div>
+    <div class="imgblock">
+      <div class="imglabel">หลัง</div>
+      <div class="imgframe">${imgA?`<img src="${imgA}">`:`<div class="noimg">รูปภาพ</div>`}</div>
+    </div>
+  </div>
+</div>
+<div class="apvbox">
+  <div class="apvrow"><span class="cbsym" style="font-size:16px">${chk(mgrDone)}</span> <u>อนุมัติ</u> ให้เป็นหัวข้อ RSS และทำการปรับปรุง</div>
+  <div class="apvrow"><span class="cbsym" style="font-size:16px">${chk(mgrProg)}</span> <u>อนุมัติ</u> ให้เป็นหัวข้อ Comment</div>
+  <div class="apvrow" style="margin-bottom:0"><span class="cbsym" style="font-size:16px">${chk(mgrPend)}</span> <u>ไม่อนุมัติ</u> เนื่องจาก ..................................................................</div>
+</div>
+<div class="sigs">
+  <div class="sigcell"><div style="min-height:14mm"></div><div class="signame">จป.วิชาชีพ</div></div>
+  <div class="sigcell"><div style="min-height:14mm"></div><div class="signame">ประธาน คปอ.</div></div>
+  <div class="sigcell"><div style="min-height:14mm"></div><div class="signame">ประธานกิจกรรม RSS</div></div>
+</div>
+<div class="footer">
+  <span>DAR NO.: SF-24-002</span>
+  <span>DOC. NO.: FM-SF-001 Rev.:04 &nbsp;&nbsp; Effective Date: 12/02/2024</span>
+  <span>พิมพ์เมื่อ: ${new Date().toLocaleDateString('th-TH')}</span>
+</div>
+<script>
+window.onload=function(){
+  var imgs=document.querySelectorAll('img'),done=0,total=imgs.length;
+  function tryPrint(){done++;if(done>=total)setTimeout(function(){window.print();},300);}
+  if(!total){setTimeout(function(){window.print();},400);return;}
+  imgs.forEach(function(img){if(img.complete&&img.naturalWidth>0)tryPrint();else{img.onload=tryPrint;img.onerror=tryPrint;}});
+  setTimeout(function(){window.print();},5000);
+};
+<\/script></body></html>`);
+  w.document.close();
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function setTab(t) {
+  dashTab=t;
+  document.getElementById('tab-dept').className='tab-btn'+(t==='dept'?' on':'');
+  document.getElementById('tab-area').className='tab-btn'+(t==='area'?' on':'');
+  renderDash();
+}
+
+function renderDash() {
+  const total=data.length;
+  // severityLevel คือระดับล่าสุด (รวมที่ จป. ปรับแล้ว)
+  const sevA=data.filter(s=>s.severityLevel==='A').length;
+  const sevB=data.filter(s=>s.severityLevel==='B').length;
+  const sevC=data.filter(s=>s.severityLevel==='C').length;
+  const done=data.filter(s=>s.mgrStatus==='done').length;
+  const prog=data.filter(s=>s.mgrStatus==='inprogress').length;
+  // นับรายการที่ จป. ปรับระดับ
+  const jorChanged=data.filter(s=>s.jorSevOriginal && s.jorSevOriginal!==s.severityLevel).length;
+  const jorNote = jorChanged ? '<br><span style="font-size:9px;color:#d97706">*รวมที่ จป.ปรับแล้ว</span>' : '';
+
+  document.getElementById('kpi-row').innerHTML=`
+    <div class="kpi"><div class="kpi-num">${total}</div><div class="kpi-lbl">📋 RSS ทั้งหมด</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:#dc2626">${sevA}</div><div class="kpi-lbl">🔴 ระดับ A${jorNote}</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:#1d4ed8">${prog}</div><div class="kpi-lbl">🔄 กำลังดำเนินการ</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:#059669">${done}</div><div class="kpi-lbl">✅ แก้ไขแล้ว</div></div>`;
+  // แสดง banner เมื่อมีการปรับระดับโดย จป.
+  const oldBanner=document.getElementById('jor-changed-banner');
+  if(oldBanner) oldBanner.remove();
+  if(jorChanged) {
+    const banner=document.createElement('div');
+    banner.id='jor-changed-banner';
+    banner.style.cssText='font-size:12px;color:#d97706;margin-bottom:12px;padding:8px 14px;background:#fffbeb;border-radius:8px;border:1px solid #fcd34d';
+    banner.innerHTML='🦺 มี <strong>'+jorChanged+'</strong> รายการที่ จป.วิชาชีพปรับระดับอันตรายแล้ว — ตัวเลขทั้งหมดแสดงระดับล่าสุด';
+    document.getElementById('kpi-row').insertAdjacentElement('afterend', banner);
+  }
+
+  // sev chart
+  const sevData=[{l:'ระดับ A',v:sevA,c:'#dc2626'},{l:'ระดับ B',v:sevB,c:'#ea580c'},{l:'ระดับ C',v:sevC,c:'#ca8a04'}];
+  document.getElementById('chart-sev').innerHTML=sevData.map(d=>{
+    const pct=total>0?Math.round(d.v/total*100):0;
+    return `<div class="bar-row"><div class="bar-lbl"><span style="color:${d.c};font-weight:700">${d.l}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${d.c}"></div></div><div class="bar-val" style="color:${d.c}">${d.v}</div></div>`;
+  }).join('')||(total===0?'<div style="color:#94a3b8;text-align:center;padding:16px;font-size:13px">ยังไม่มีข้อมูล</div>':'');
+
+  // group stats
+  const grpKey = dashTab==='dept' ? 'department' : 'jorArea';
+  const grpTitle = dashTab==='dept' ? '🏭 Top 5 แผนก' : '📍 Top 5 พื้นที่ 5ส.';
+  const tblTitle = dashTab==='dept' ? '🏭 ตารางติดตามตามแผนก' : '📍 ตารางติดตามตามพื้นที่ 5ส.';
+  document.getElementById('chart2-title').textContent=grpTitle;
+  document.getElementById('dash-table-title').textContent=tblTitle;
+
+  const grpStats={};
+  data.forEach(s=>{
+    const k=s[grpKey]||(dashTab==='dept'?'ไม่ระบุแผนก':'(ยังไม่ระบุพื้นที่)');
+    if(!grpStats[k]) grpStats[k]={total:0,done:0,A:0,B:0,C:0};
+    grpStats[k].total++;
+    if(s.mgrStatus==='done') grpStats[k].done++;
+    if(s.severityLevel==='A') grpStats[k].A++;
+    else if(s.severityLevel==='B') grpStats[k].B++;
+    else if(s.severityLevel==='C') grpStats[k].C++;
+  });
+
+  // top5 chart
+  const sorted=Object.entries(grpStats).sort((a,b)=>b[1].total-a[1].total);
+  const top5=sorted.slice(0,5), maxV=top5[0]?.[1]?.total||1;
+  const chartColor = dashTab==='dept'?'#1d4ed8':'#059669';
+  document.getElementById('chart-top').innerHTML=top5.length?top5.map(([k,v])=>
+    `<div class="bar-row"><div class="bar-lbl" style="font-size:10px">${k.length>12?k.slice(0,12)+'…':k}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v.total/maxV*100)}%;background:${chartColor}"></div></div><div class="bar-val">${v.total}</div></div>`
+  ).join(''):'<div style="color:#94a3b8;text-align:center;padding:16px;font-size:13px">ยังไม่มีข้อมูล</div>';
+
+  // table
+  const thLabel = dashTab==='dept'?'แผนก':'พื้นที่ 5ส.';
+  document.getElementById('dash-thead').innerHTML=`<tr><th>${thLabel}</th><th style="text-align:center">RSS ทั้งหมด</th><th style="text-align:center">แก้ไขแล้ว</th><th style="text-align:center">คงเหลือ</th><th style="text-align:center">A</th><th style="text-align:center">B</th><th style="text-align:center">C</th><th style="text-align:center">สถานะ</th></tr>`;
+  document.getElementById('dash-tbody').innerHTML=sorted.map(([k,v])=>{
+    const rem=v.total-v.done, pct=v.total>0?Math.round(v.done/v.total*100):0;
+    const stCls=v.done>=v.total&&v.total>0?'st-done':v.done>0?'st-inprogress':'st-pending';
+    const stTxt=v.done>=v.total&&v.total>0?'✅ เสร็จสิ้น':v.done>0?'🔄 ดำเนินการ':'⏳ รอ';
+    return `<tr><td><strong>${esc(k)}</strong><div style="font-size:10px;color:#94a3b8">${pct}% แก้ไขแล้ว</div></td>
+      <td style="text-align:center;font-weight:700">${v.total}</td>
+      <td style="text-align:center;color:#15803d;font-weight:700">${v.done}</td>
+      <td style="text-align:center;font-weight:700;color:${rem>0?'#dc2626':'#15803d'}">${rem}</td>
+      <td style="text-align:center;font-weight:700;color:#dc2626">${v.A}</td>
+      <td style="text-align:center;font-weight:700;color:#ea580c">${v.B}</td>
+      <td style="text-align:center;font-weight:700;color:#ca8a04">${v.C}</td>
+      <td style="text-align:center"><span class="status-badge ${stCls}">${stTxt}</span></td></tr>`;
+  }).join('')||'<tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px">ยังไม่มีข้อมูล</td></tr>';
+
+  // recent
+  document.getElementById('recent-tbody').innerHTML=data.slice(0,5).map(s=>{
+    const sc=SEV_COLOR[s.severityLevel]||'#94a3b8';
+    const dt=new Date(s.submittedAt).toLocaleDateString('th-TH',{day:'numeric',month:'short'});
+    const stTxt=s.mgrStatus==='done'?'✅':s.mgrStatus==='inprogress'?'🔄':'⏳';
+    return `<tr><td><strong>${esc(s.name)}</strong></td><td style="font-size:11px">${esc(s.department)}</td><td style="font-size:11px;color:#059669">${esc(s.jorArea||'-')}</td><td style="text-align:center;font-weight:700;color:${sc}">${s.severityLevel||'-'}</td><td style="text-align:center">${stTxt}</td><td style="font-size:11px;color:#94a3b8">${dt}</td></tr>`;
+  }).join('')||'<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:16px">ยังไม่มีข้อมูล</td></tr>';
+}
+
+// ============================================================
+//  UTILS
+// ============================================================
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+function updateCount(){ document.getElementById('nav-count').textContent=data.length; }
+function showLoad(v){ document.getElementById('loading').style.display=v?'flex':'none'; }
+function showErr(msg){ const el=document.getElementById('form-err'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',3000); }
+
+let _toastTimer=null;
+function showToast(msg, type='ok') {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='show '+(type==='err'?'err':type==='warn'?'warn':'ok');
+  if(_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>{ t.className=''; },3000);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
+  await loadData();
+  // auto-refresh 60s
+  setInterval(doRefresh, 60000);
+});
+</script>
+</body>
+</html>
